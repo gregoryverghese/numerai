@@ -1,0 +1,12 @@
+{"public_key":"Z3WSDWZNFSLTNXIJPUGWLXUEXNRGENV6",
+ "secret_key":"LNA57ECIKXLOO73P2JS3CA56BNMAA6BFVFY2YTAQ7IEBS47HWVDFYM7PRHT5OSD2",
+ "model_id":"cf1b66bc-0e73-44dd-95b4-e3021ea3b09a",
+ "train_path":"../../data/numerai_dataset_252/numerai_training_data.csv",
+ "test_path":"'../../data/numerai_dataset_252/numerai_tournament_data.csv'",
+ "n_components":50,
+ "cv_folds":10
+}
+
+ 
+ 
+
