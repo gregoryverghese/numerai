@@ -24,18 +24,20 @@ params={'num_leaves': [30, 40, 50],
         'feature_fraction': [0.85, 0.75, 0.65]}
 
 def train():
-    print(TRAIN_PATH)
+    
     try:
         train_data=utilities.get_data(TRAIN_PATH)
         test_data=utilities.get_data(TEST_PATH)
     except Exception as e:
         print(e)
-        num_api = numerapi.NumerAPI(public_key, secret_key,verbosity="info")
+        num_api = numerapi.NumerAPI(PUBLIC_KEY, SECRET_GUY,verbosity="info")
         num_api.download_current_dataset(dest_path='../data/')
-        feature_names=utilities.get_feature_names(train_data)
-        train_data=utilities.get_data(train_path)
-        test_data=utilities.get_data(test_path)
-        
+        feature_names=utilities.get_feature_names(TRAIN_PATH)
+        train_data=utilities.get_data(TRAIN_PATH)
+        test_data=utilities.get_data(TEST_PATH)
+
+    feature_names=utilities.get_feature_names(train_data)
+
     #use pca for dimensionality reduction
     pca=PCA(n_components=N_COMPONENTS)
     pca.fit(train_data[feature_names])
@@ -52,11 +54,16 @@ def train():
     lgb=LGBMRegressor()
     lgb_randomsearch=RandomizedSearchCV(estimator=lgb,cv=CV,param_distributions=params, n_iter=100)
     lgb_model=lgb_randomsearch.fit(x_train_pca_noise[:100],train_data['target'][:100])
-    lgb_model=lgb_model.fit(x_train_pca_noise[:100],train_data['target'][:100])
+    lgb_model_best=lgb_model.best_estimator_
+    lgb_model_best=lgb_model_best.fit(x_train_pca_noise[:100],train_data['target'][:100])
+    
+    print("Generating all predictions...")
+    train_data['prediction'] = lgb_model_best.predict(x_train_pca_noise)
+    test_data['prediction'] = lgb_model_best.predict(x_test_pca)
 
     train_corrs = (evaluation.per_era_score(train_data))
     print('train correlations mean: {}, std: {}'.format(train_corrs.mean(), train_corrs.std(ddof=0)))
-    print('avg per-era payout: {}'.format(evaluation.payout(train_corrs).mean()))
+    #print('avg per-era payout: {}'.format(evaluation.payout(train_corrs).mean()))
 
     valid_data = test_data[test_data.data_type == 'validation']
     valid_corrs = evaluation.per_era_score(valid_data)
@@ -68,7 +75,7 @@ def train():
     #live_data = test_data[test_data.data_type == "test"]
     #live_corrs = evaluation.per_era_score(test_data)
     #test_sharpe = evaluation.sharpe(test_data)
-    print('live correlations - mean: {}, std: {}'.format(live_corrs.mean(),live_corrs.std(ddof=0)))
+    #print('live correlations - mean: {}, std: {}'.format(live_corrs.mean(),live_corrs.std(ddof=0)))
     #print('avg per-era payout is {}'.format(evaluation.payout(live_corrs).mean()))
     #print('live Sharpe: {}'.format(test_sharpe))
     
@@ -80,8 +87,6 @@ def train():
     valid_corrs.to_csv('valid_predictions.csv')
 
 
-
-    
 if __name__ == '__main__':
     ap=argparse.ArgumentParser()
     ap.add_argument('-cp','--configpath',required=True,help='config path')

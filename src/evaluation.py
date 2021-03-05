@@ -5,7 +5,8 @@ import pandas as pd
 
 #submitted predictions scored using spearman correlation
 def spearman(y_true, y_pred):
-    return spearmanr(y_true, y_pred, axis=0)
+    corrs, _ = spearmanr(y_true, y_pred, axis=0)
+    return corrs
 
 
 #get scores between predicitons andi target
@@ -21,13 +22,14 @@ def per_era_score(df):
 #return sharpe ration on dataset
 #fix this to allow direct setup of correlations
 def sharpe(df):
-    corrs= score(df)
+    corrs = score(df)
+    print(corrs)
     return corrs.mean() / corrs.std()
 
 
 #The payout is capped ato 25%
 def payout(scores):
-    return scores.clip(lower=-0.25, upper=0.25)
+    return scores.clip(min=-0.25, max=0.25)
 
 
 #check individual feature exposure to each score
