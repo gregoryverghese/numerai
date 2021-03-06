@@ -12,7 +12,7 @@
   <a href="https://github.com/othneildrew/Best-README-Template">
   </a>
 
-  <h3 align="center">Numerai</h3>
+  <h1 align="center">Numerai</h1>
   
 
   <p align="center">
