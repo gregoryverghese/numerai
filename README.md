@@ -16,7 +16,7 @@
   
 
   <p align="center">
-  numerai stock market prediction - the hardest datascience tournament in the world
+  Hardest datascience tournament in the world!
 
   </p>
 </p>
