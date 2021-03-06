@@ -10,12 +10,10 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">PySlide</h3>
+  <h3 align="left">Numerai</h3>
   
-  <p align="center">UNDER DEVELOPMENT</p>
 
   <p align="center">
   numerai stock market prediction - the hardest datascience tournament in the world
