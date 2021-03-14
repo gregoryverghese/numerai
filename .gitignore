@@ -129,8 +129,21 @@ dmypy.json
 .pyre/
 
 # data
-.csv
+*.csv
 
 data*
 
 .DS_Store
+
+#config files
+*config.json 
+
+#model files
+*.pkl
+
+#data download
+*.zip
+
+*.swp
+
+
